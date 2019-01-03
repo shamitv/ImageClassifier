@@ -31,7 +31,7 @@ csv_train_data=dir+'train.csv'
 model_dir=dir
 
 image_size=28
-epochs=20
+epochs=40
 num_classes=10
 batch_size=32
 
