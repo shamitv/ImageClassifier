@@ -64,6 +64,10 @@ def build_model(image_size,num_classes):
    # model.add(Dropout(0.5))
     model.add(Conv2D(32, (3, 3), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Conv2D(32, (3, 3), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Conv2D(32, (3, 3), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
    # model.add(Dropout(0.5))
     model.add(Flatten())  # this converts our 3D feature maps to 1D feature vectors
    # model.add(Dropout(0.5))
