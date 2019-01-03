@@ -69,7 +69,7 @@ def build_model(image_size,num_classes):
    # model.add(Dropout(0.5))
     model.add(Dense(256, activation='relu'))
     model.add(Dense(128, activation='relu'))
-   # model.add(Dropout(0.5))
+    model.add(Dropout(0.5))
     model.add(Dense(num_classes, activation='softmax'))
 
 
@@ -83,7 +83,7 @@ def build_model(image_size,num_classes):
 
 
 model = build_model(image_size,num_classes);
-checkpoint = ModelCheckpoint(model_dir+'/checkpoint_model_v2.h5',
+checkpoint = ModelCheckpoint(model_dir+'/checkpoint_model_v3.h5',
                              monitor='val_acc', verbose=1, save_best_only=True, mode='max')
 model.fit(x=train_x, y=train_y, batch_size=batch_size, verbose=2,
           epochs=epochs, validation_split=0.2, callbacks=[checkpoint] )
