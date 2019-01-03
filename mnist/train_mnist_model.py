@@ -28,6 +28,7 @@ else:
     dir= './data/'
 
 csv_train_data=dir+'train.csv'
+model_dir=dir
 
 image_size=28
 epochs=20
@@ -81,4 +82,7 @@ def build_model(image_size,num_classes):
 
 
 model = build_model(image_size,num_classes);
-model.fit(x=train_x, y=train_y, batch_size=batch_size, verbose=2, epochs=epochs, validation_split=0.2 )
+checkpoint = ModelCheckpoint(model_dir+'/checkpoint_model_v1.h5',
+                             monitor='val_acc', verbose=1, save_best_only=True, mode='max')
+model.fit(x=train_x, y=train_y, batch_size=batch_size, verbose=2,
+          epochs=epochs, validation_split=0.2, callbacks=[checkpoint] )
