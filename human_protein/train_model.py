@@ -13,10 +13,10 @@ model_path = getModelFile()
 info("Saving model at :: {0}".format(model_path))
 
 batch_size=32
-epochs=20
+epochs=200
 
 checkpoint = ModelCheckpoint(getModelFile(),
-                             monitor='val_loss', verbose=1, save_best_only=True, mode='min')
+                             monitor='val_loss', verbose=1, save_best_only=False, mode='min')
 
 train_x=train_data['train_x']
 train_y=train_data['train_y']
