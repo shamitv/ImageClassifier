@@ -4,7 +4,7 @@ from logging import info
 from keras.callbacks import ModelCheckpoint
 
 info('Loading data')
-train_data = getData()
+train_data = getData('train')
 info('Getting model definition')
 model = getModel()
 
