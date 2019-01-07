@@ -16,7 +16,7 @@ batch_size=32
 epochs=20
 
 checkpoint = ModelCheckpoint(getModelFile(),
-                             monitor='val_acc', verbose=1, save_best_only=True, mode='max')
+                             monitor='val_loss', verbose=1, save_best_only=True, mode='min')
 
 train_x=train_data['train_x']
 train_y=train_data['train_y']
