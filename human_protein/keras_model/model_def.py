@@ -9,7 +9,7 @@ from config.data import num_classes , image_dimension
 
 def getModelFile():
     model_dir = data_dir + '/model'
-    model_version = 2
+    model_version = 3
     model_path = "{0}/model_v{1}.h5".format(model_dir,model_version)
     return model_path
 
@@ -33,7 +33,7 @@ def getModel():
     model.add(Dense(256, activation='relu'))
     model.add(Dense(128, activation='relu'))
     model.add(Dropout(0.5))
-    model.add(Dense(num_classes, activation='relu'))
+    model.add(Dense(num_classes, activation='sigmoid'))
 
     model.compile(loss='binary_crossentropy',
                   optimizer='adam',
