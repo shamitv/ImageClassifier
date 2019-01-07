@@ -53,7 +53,7 @@ def getModel():
     model.add(Dropout(0.5))
     model.add(Dense(num_classes, activation='sigmoid'))
 
-    model.compile(loss=[focal_loss(alpha=.25, gamma=2)],
+    model.compile(loss=[focal_loss2(alpha=.25, gamma=2)],
                   optimizer='adam',
                   metrics=['accuracy'])
 
