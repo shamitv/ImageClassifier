@@ -9,7 +9,7 @@ from config.data import num_classes , image_dimension
 
 def getModelFile():
     model_dir = data_dir + '/model'
-    model_version = 1
+    model_version = 2
     model_path = "{0}/model_v{1}.h5".format(model_dir,model_version)
     return model_path
 
@@ -20,7 +20,7 @@ def getModel():
 
     model.add(Conv2D(32, (3, 3), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
-    # model.add(Dropout(0.5))
+    model.add(Dropout(0.5))
     model.add(Conv2D(16, (3, 3), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Conv2D(16, (3, 3), activation='relu'))
