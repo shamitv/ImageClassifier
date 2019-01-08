@@ -2,7 +2,7 @@ import platform
 
 
 if platform.system()=='Windows':
-    root_dir = ''
+    root_dir = 'F:/mldata/Human_Protein_Atlas/kaggle_competition/'
 else:
     root_dir= './'
 
