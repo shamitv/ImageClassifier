@@ -15,7 +15,7 @@ info('Getting model definition')
 
 
 
-model_path =  data_dir + 'model/' + 'model_v8.h5.0103-18.27val_f1-0.2443.h5'
+model_path =  data_dir + 'model/' + 'model_v8.h5.0145-20.07val_f1-0.2686.h5'
 
 info("Loading model from :: {0}".format(model_path))
 
