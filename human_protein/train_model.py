@@ -1,5 +1,5 @@
-from keras_model.model_def import getModel, getModelFile
-from dataset.loadData import getData
+from keras_model.single_class_model import getModel, getModelFile
+from dataset.loadData import getData, getExpandedDataFrame
 from logging import info
 from keras.callbacks import ModelCheckpoint
 

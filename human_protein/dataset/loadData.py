@@ -5,7 +5,7 @@ import pickle
 from logging import info, error
 from PIL import Image
 from config.paths import train_csv_file , test_csv_file ,  processed_image_dir_train, processed_image_dir_test , data_dir
-from config.data import num_classes , image_dimension
+from config.data import num_classes , image_dimension , train_color
 import os.path
 
 
@@ -137,22 +137,34 @@ def preparePicleTest():
 
     info('Saved data to :: ' + pickle_path)
 
-
-
-'''
-Test for these errors
-2019-01-07 09:55:51,794 - Couldnot load image :: C:/Users/shamit/work/kaggle/Human_Protein//data//train//processed/a3824e54-bbb4-11e8-b2ba-ac1f6b6435d0_green.png Error :: tuple index out of range
-2019-01-07 09:56:00,529 - Couldnot load image :: C:/Users/shamit/work/kaggle/Human_Protein//data//train//processed/37df064e-bbc6-11e8-b2bc-ac1f6b6435d0_green.png Error :: tuple index out of range
-2019-01-07 09:56:23,810 - Couldnot load image :: C:/Users/shamit/work/kaggle/Human_Protein//data//train//processed/babe5cc2-bb9e-11e8-b2b9-ac1f6b6435d0_green.png Error :: tuple index out of range
-
-
-def loadProblamaticImages():
-    img_id_list=['a3824e54-bbb4-11e8-b2ba-ac1f6b6435d0','37df064e-bbc6-11e8-b2bc-ac1f6b6435d0','babe5cc2-bb9e-11e8-b2b9-ac1f6b6435d0'];
-    for img_id in img_id_list:
-        getImageArray(img_id, 'green')
-
-
-loadProblamaticImages()
-'''
-
-#getData('test')
+def getExpandedDataFrame(data_source='train'):
+    meta_df = getCSVDataFrame(data_source)
+    num_images = meta_df.shape[0]
+    data_dict = {
+        'images': [],
+        'image_files': []
+    }
+    for x in range(0, 28):
+        key = "label_{0}".format(x)
+        data_dict[key] = []
+    for x in range(0, num_images):
+        img_id = meta_df.iloc[x].values[0]
+        labels_str = meta_df.iloc[x].values[1]
+        labels = labels_str.split()
+        filename=img_id+'_'+train_color+'.png'
+        data_dict['images'].append(img_id)
+        data_dict['image_files'].append(filename)
+        labels = set(labels)
+        for y in range(0, 28):
+            label_key = "label_{0}".format(y)
+            label_list=data_dict[label_key]
+            if str(y) in labels:
+                label_list.append(1)
+            else:
+                label_list.append(0)
+    expanded_df=pd.DataFrame.from_dict(data=data_dict,orient='columns' )
+    return expanded_df
+if __name__ == "__main__":
+    #getData('test')
+    df=getExpandedDataFrame('train')
+    print(df.head(4))
