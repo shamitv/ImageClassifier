@@ -11,7 +11,7 @@ from config.data import num_classes , image_dimension
 
 def getModelFile():
     model_dir = data_dir + '/model'
-    model_version = 7
+    model_version = 8
     model_path = "{0}/model_v{1}.h5".format(model_dir,model_version)
     return model_path
 

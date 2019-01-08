@@ -15,8 +15,8 @@ info("Saving model at :: {0}".format(model_path))
 batch_size=32
 epochs=200
 
-checkpoint = ModelCheckpoint(getModelFile()+'.{epoch:04d}-{val_loss:.2f}.h5',
-                             monitor='val_loss', verbose=1, save_best_only=True, mode='min')
+checkpoint = ModelCheckpoint(getModelFile()+'.{epoch:04d}-{val_loss:.2f}val_f1-{val_f1:.4f}.h5',
+                             monitor='val_f1', verbose=1, save_best_only=True, mode='max')
 
 train_x=train_data['train_x']
 train_y=train_data['train_y']
