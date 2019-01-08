@@ -36,14 +36,14 @@ def trainForLabel(label):
 
     checkpoint = ModelCheckpoint(model_file,
                                  monitor='val_acc', verbose=1, save_best_only=True, mode='max')
-    '''
+
     model.fit_generator(generator=train_generator,
                         steps_per_epoch=num_train_steps, epochs=20,verbose=2,
                         callbacks=[checkpoint],
                         validation_steps=num_val_steps,
                         validation_data=validation_generator, )
 
-    '''
+
 if __name__ == "__main__":
     for x in range(0,28):
         info("Training for label {0}".format(x))
