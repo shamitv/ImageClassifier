@@ -11,7 +11,7 @@ from config.data import num_classes , image_dimension
 
 def getModelFile():
     model_dir = data_dir + '/model'
-    model_version = 6
+    model_version = 7
     model_path = "{0}/model_v{1}.h5".format(model_dir,model_version)
     return model_path
 
@@ -26,21 +26,36 @@ def focal_loss(gamma=2., alpha=.25):
         return -K.sum(alpha * K.pow(1. - pt_1, gamma) * K.log(pt_1))-K.sum((1-alpha) * K.pow( pt_0, gamma) * K.log(1. - pt_0))
     return focal_loss_fixed
 
-def recall(y_true, y_pred):
-    #Recall metric.
+def f1(y_true, y_pred):
+    def recall(y_true, y_pred):
+        """Recall metric.
 
-    true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)),axis=0)
-    possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)),axis=0)
-    recall = true_positives / (possible_positives + K.epsilon())
-    return recall
+        Only computes a batch-wise average of recall.
 
-def precision(y_true, y_pred):
-    #Precision metric.
+        Computes the recall, a metric for multi-label classification of
+        how many relevant items are selected.
+        """
+        true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+        possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
+        recall = true_positives / (possible_positives + K.epsilon())
+        return recall
 
-    true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)),axis=0)
-    predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)),axis=1)
-    precision = true_positives / (predicted_positives + K.epsilon())
-    return precision
+    def precision(y_true, y_pred):
+        """Precision metric.
+
+        Only computes a batch-wise average of precision.
+
+        Computes the precision, a metric for multi-label classification of
+        how many selected items are relevant.
+        """
+        true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+        predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
+        precision = true_positives / (predicted_positives + K.epsilon())
+        return precision
+    precision = precision(y_true, y_pred)
+    recall = recall(y_true, y_pred)
+    return 2*((precision*recall)/(precision+recall+K.epsilon()))
+
 
 def getModel():
     model = Sequential()
@@ -67,7 +82,7 @@ def getModel():
 
     model.compile(loss=[focal_loss(alpha=.25, gamma=2)],
                   optimizer='adam',
-                  metrics=[precision,recall])
+                  metrics=[f1])
 
     model.summary()
     return  model
