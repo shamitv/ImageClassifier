@@ -11,9 +11,23 @@ from config.data import num_classes , image_dimension
 
 def getModelFile():
     model_dir = data_dir + '/model'
-    model_version = 8
+    model_version = 9
     model_path = "{0}/model_v{1}.h5".format(model_dir,model_version)
     return model_path
+
+
+def f1_loss(y_true, y_pred):
+    tp = K.sum(K.cast(y_true * y_pred, 'float'), axis=0)
+    tn = K.sum(K.cast((1 - y_true) * (1 - y_pred), 'float'), axis=0)
+    fp = K.sum(K.cast((1 - y_true) * y_pred, 'float'), axis=0)
+    fn = K.sum(K.cast(y_true * (1 - y_pred), 'float'), axis=0)
+
+    p = tp / (tp + fp + K.epsilon())
+    r = tp / (tp + fn + K.epsilon())
+
+    f1 = 2 * p * r / (p + r + K.epsilon())
+    f1 = tf.where(tf.is_nan(f1), tf.zeros_like(f1), f1)
+    return 1 - K.mean(f1)
 
 def focal_loss(gamma=2., alpha=.25):
     def focal_loss_fixed(y_true, y_pred):
@@ -105,7 +119,7 @@ def getModel():
     model.add(Dropout(0.5))
     model.add(Dense(num_classes, activation='sigmoid'))
 
-    model.compile(loss=[focal_loss(alpha=.25, gamma=2)],
+    model.compile(loss=f1_loss,
                   optimizer='adam',
                   metrics=[f1,precision,recall])
 
