@@ -10,9 +10,8 @@ logging.basicConfig(level=logging.INFO,  format='%(asctime)s - %(message)s')
 
 batch_size=32
 
-def trainForLabel(label):
+def trainForLabel(label , df, class_weights):
     y_column_name='label_'+str(label)
-    df = getExpandedDataFrame('train')
     num_samples=df.shape[0]
     validation_split=0.2
     num_train_steps=int(num_samples*(1-validation_split)/batch_size)
@@ -38,13 +37,30 @@ def trainForLabel(label):
                                  monitor='val_acc', verbose=1, save_best_only=True, mode='max')
 
     model.fit_generator(generator=train_generator,
-                        steps_per_epoch=num_train_steps, epochs=20,verbose=2,
+                        steps_per_epoch=num_train_steps, epochs=20,verbose=1,
                         callbacks=[checkpoint],
                         validation_steps=num_val_steps,
-                        validation_data=validation_generator, )
+                        validation_data=validation_generator,
+                        class_weight=class_weights)
+
+def esimateClassWeight(df, label):
+    num_images=df.shape[0]
+    column_name="label_{0}".format(label)
+    label_positive=df.loc[df[column_name] == 1]
+    positive_count=label_positive.shape[0]
+    positive_ratio=num_images/positive_count
+    class_weight = {0: 1, 1: positive_ratio}
+    info("Positive class weight for label {0} is {1}".format(label,positive_ratio))
+    return class_weight
 
 
 if __name__ == "__main__":
+    df = getExpandedDataFrame('train')
     for x in range(0,28):
         info("Training for label {0}".format(x))
         trainForLabel(str(x))
+    '''
+    label=str(19)
+    class_weights = esimateClassWeight(df, label)
+    trainForLabel(label,df,class_weights)
+    '''

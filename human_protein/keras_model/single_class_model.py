@@ -9,25 +9,26 @@ from config.data import image_dimension
 
 def getModelFile(label):
     model_dir = data_dir + '/model'
-    model_version = 1
+    model_version = 2
     model_path = "{0}/signle_class_label_{1}_model_v{2}.h5".format(model_dir,label,model_version)
     return model_path
 
 def getModel():
     model = Sequential()
     model.add(Conv2D(64, (3, 3), activation='relu', input_shape=(image_dimension, image_dimension, 1)))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(MaxPooling2D(pool_size=(3, 3)))
 
     model.add(Conv2D(32, (3, 3), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.5))
+    #model.add(Dropout(0.5))
     model.add(Conv2D(16, (3, 3), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Conv2D(16, (3, 3), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.5))
+
     model.add(Conv2D(16, (3, 3), activation='relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(MaxPooling2D(pool_size=(3, 3)))
     # model.add(Dropout(0.5))
     model.add(Flatten())  # this converts our 3D feature maps to 1D feature vectors
     # model.add(Dropout(0.5))
@@ -39,7 +40,7 @@ def getModel():
 
     model.compile(loss='binary_crossentropy',
                   optimizer='adam',
-                  metrics=['accuracy','categorical_accuracy'])
+                  metrics=['accuracy'])
 
     #model.summary()
     return  model
