@@ -6,6 +6,7 @@ import numpy as np
 import keras
 import pandas as pd
 from logging import info
+import pickle
 
 def loadSingleClassModels(max_label):
     models={}
@@ -34,7 +35,7 @@ for i in range (0,num_images):
     #if i > 200:
     #   break
 
-for x in range(0, 20):
+for x in range(0, max_label+1):
     key = "label_{0}".format(x)
     info("Processing {0}".format(key))
     model=models[key]
@@ -44,6 +45,7 @@ for x in range(0, 20):
         img_x = np.array(img_x)
         img_class=model.predict_classes(img_x).flatten()[0]
         data_dict[key].append(img_class)
+    pickle.dump(data_dict,open(test_single_class_output_csv+'.pickle', 'wb'), protocol=4)
 
 output_df = pd.DataFrame.from_dict(data=data_dict,orient='columns' )
 output_df.to_csv(test_single_class_output_csv ,index=False)
