@@ -29,7 +29,7 @@ for x in range(0, max_label+1):
     data_dict[key] = []
 num_images = meta_df.shape[0]
 for i in range (0,num_images):
-    img_id = meta_df.iloc[x].values[0]
+    img_id = meta_df.iloc[i].values[0]
     data_dict['images'].append(img_id)
     if i > 200:
         break
@@ -38,8 +38,9 @@ for x in range(0, 20):
     key = "label_{0}".format(x)
     info("Processing {0}".format(key))
     model=models[key]
-    for img in data_dict['images']:
-        img_x = [getImageArray(img_id=img_id, color=train_color, data_source='test')]
+    image_list=data_dict['images']
+    for img in image_list:
+        img_x = [getImageArray(img_id=img, color=train_color, data_source='test')]
         img_x = np.array(img_x)
         img_class=model.predict_classes(img_x).flatten()[0]
         data_dict[key].append(img_class)
