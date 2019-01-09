@@ -57,8 +57,10 @@ def esimateClassWeight(df, label):
 if __name__ == "__main__":
     df = getExpandedDataFrame('train')
     for x in range(0,28):
-        info("Training for label {0}".format(x))
-        trainForLabel(str(x))
+        label=str(x)
+        info("Training for label {0}".format(label))
+        class_weights = esimateClassWeight(df, label)
+        trainForLabel(label,df,class_weights)
     '''
     label=str(19)
     class_weights = esimateClassWeight(df, label)
