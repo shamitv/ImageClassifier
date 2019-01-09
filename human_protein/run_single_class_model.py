@@ -15,7 +15,7 @@ def loadSingleClassModels(max_label):
     return models
 
 
-max_label=19
+max_label=27
 meta_df = getCSVDataFrame('test')
 num_images = meta_df.shape[0]
 data_dict = {
@@ -31,8 +31,8 @@ num_images = meta_df.shape[0]
 for i in range (0,num_images):
     img_id = meta_df.iloc[i].values[0]
     data_dict['images'].append(img_id)
-    if i > 200:
-        break
+    #if i > 200:
+    #   break
 
 for x in range(0, 20):
     key = "label_{0}".format(x)
