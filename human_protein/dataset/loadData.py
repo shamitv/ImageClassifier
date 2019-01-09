@@ -7,7 +7,7 @@ from PIL import Image
 from config.paths import train_csv_file , test_csv_file ,  processed_image_dir_train, processed_image_dir_test , data_dir
 from config.data import num_classes , image_dimension , train_color
 import os.path
-
+logging.basicConfig(level=logging.INFO,  format='%(asctime)s - %(message)s')
 
 def getCSVDataFrame(data_source='train'):
     if(data_source=='train'):
