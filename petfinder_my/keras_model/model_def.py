@@ -98,12 +98,11 @@ def f1(y_true, y_pred):
 def getModel(num_classes, num_input_columns):
     model = Sequential()
     model.add(Dense(num_input_columns, activation='relu', input_shape=(num_input_columns,)))
-    model.add(Dense(2048, activation='relu',
-                activity_regularizer=regularizers.l1(0.01)))
-    model.add(Dense(1024, activation='relu',
-                activity_regularizer=regularizers.l1(0.01)))
-    model.add(Dense(512, activation='relu',
-                activity_regularizer=regularizers.l1(0.01)))
+    model.add(Dense(2048, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(1024, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(512, activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(128, activation='relu'))
     model.add(Dropout(0.5))
