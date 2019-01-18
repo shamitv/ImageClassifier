@@ -8,6 +8,10 @@ else:
 
 data_dir = root_dir + '/data/'
 
+log_dir=data_dir = root_dir + '/log/'
+
+tensorboard_log_dir=data_dir = log_dir + '/tensorboard/'
+
 source_image_dir_train = data_dir+'/train_images/'
 
 processed_image_dir_train = source_image_dir_train + '/processed/'

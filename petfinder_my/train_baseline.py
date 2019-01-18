@@ -1,11 +1,10 @@
-import pandas as pd
 
 
 from keras_model.model_def import getModel
 from logging import info
 
 from dataset.pre_process import getTrainDF , convertColumnToOneHot
-
+from keras_model.tensorboard import getTensorboardCallback
 info('Getting data')
 
 df=getTrainDF()
@@ -22,4 +21,4 @@ num_classes=5
 num_columns=train_X.shape[1]
 
 model=getModel(num_classes,num_columns)
-model.fit(train_X, train_y, validation_split=0.2, epochs=30, verbose=2)
+model.fit(train_X, train_y, validation_split=0.2, epochs=800, verbose=2, callbacks=[getTensorboardCallback()])
