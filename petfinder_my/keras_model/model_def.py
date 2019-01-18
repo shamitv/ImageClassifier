@@ -111,7 +111,7 @@ def getModel(num_classes, num_input_columns):
     model.add(Activation('softmax'))
 
 
-    model.compile(loss='binary_crossentropy',
+    model.compile(loss='categorical_crossentropy',
                   optimizer='adam',
                   metrics=[categorical_accuracy , f1])
 
