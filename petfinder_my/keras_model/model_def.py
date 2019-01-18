@@ -10,7 +10,7 @@ from config.data import num_classes , image_dimension
 
 def getModelFile():
     model_dir = data_dir + '/model'
-    model_version = 3
+    model_version = 4
     model_path = "{0}/model_v{1}".format(model_dir,model_version)
     model_path += "_.{epoch:04d}-{val_loss:.2f}val_f1-{val_f1:.4f}.h5"
     return model_path
@@ -99,14 +99,14 @@ def f1(y_true, y_pred):
 def getModel(num_classes, num_input_columns):
     model = Sequential()
     model.add(Dense(num_input_columns, activation='relu', input_shape=(num_input_columns,)))
-    model.add(Dense(2048, activation='relu'))
-    model.add(Dropout(0.5))
     model.add(Dense(1024, activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(512, activation='relu'))
     model.add(Dropout(0.5))
-    model.add(Dense(128, activation='relu'))
-    model.add(Dropout(0.5))
+    model.add(Dense(256, activation='relu'))
+#    model.add(Dropout(0.5))
+#    model.add(Dense(128, activation='relu'))
+#    model.add(Dropout(0.5))
     model.add(Dense(num_classes))
     model.add(Activation('softmax'))
 
