@@ -2,7 +2,7 @@ from keras.models import Sequential
 from keras.layers import Dropout, Activation
 from keras.metrics import categorical_accuracy
 from keras.layers import Dense
-from keras import backend as K
+from keras import backend as K , regularizers
 import tensorflow as tf
 
 from config.paths import data_dir
@@ -98,9 +98,12 @@ def f1(y_true, y_pred):
 def getModel(num_classes, num_input_columns):
     model = Sequential()
     model.add(Dense(num_input_columns, activation='relu', input_shape=(num_input_columns,)))
-    model.add(Dense(2048, activation='relu'))
-    model.add(Dense(1024, activation='relu'))
-    model.add(Dense(512, activation='relu'))
+    model.add(Dense(2048, activation='relu', kernel_regularizer=regularizers.l2(0.01),
+                activity_regularizer=regularizers.l1(0.01)))
+    model.add(Dense(1024, activation='relu', kernel_regularizer=regularizers.l2(0.01),
+                activity_regularizer=regularizers.l1(0.01)))
+    model.add(Dense(512, activation='relu', kernel_regularizer=regularizers.l2(0.01),
+                activity_regularizer=regularizers.l1(0.01)))
     model.add(Dropout(0.5))
     model.add(Dense(128, activation='relu'))
     model.add(Dropout(0.5))
