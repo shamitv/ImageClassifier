@@ -113,7 +113,7 @@ def getModel(num_classes, num_input_columns):
 
     model.compile(loss='binary_crossentropy',
                   optimizer='adam',
-                  metrics=[categorical_accuracy])
+                  metrics=[categorical_accuracy , f1_loss])
 
     model.summary()
     return model
