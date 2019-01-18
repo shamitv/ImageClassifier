@@ -11,7 +11,8 @@ from config.data import num_classes , image_dimension
 def getModelFile():
     model_dir = data_dir + '/model'
     model_version = 2
-    model_path = "{0}/model_v{1}_.{epoch:04d}-{val_loss:.2f}val_f1-{val_f1:.4f}.h5.h5".format(model_dir,model_version)
+    model_path = "{0}/model_v{1}".format(model_dir,model_version)
+    model_path += "_.{epoch:04d}-{val_loss:.2f}val_f1-{val_f1:.4f}.h5"
     return model_path
 
 
