@@ -140,6 +140,8 @@ def preparePicleTest():
 def getExpandedDataFrame(data_source='train'):
     meta_df = getCSVDataFrame(data_source)
     num_images = meta_df.shape[0]
+    # Hard code image count to 200 for debug
+    #num_images = 5000
     data_dict = {
         'images': [],
         'image_files': []

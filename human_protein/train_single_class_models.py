@@ -9,7 +9,9 @@ import logging
 import numpy as np
 from keras.callbacks import Callback
 from sklearn.metrics import confusion_matrix, f1_score, precision_score, recall_score
+import os
 
+os.environ["CUDA_VISIBLE_DEVICES"]="1"
 logging.basicConfig(level=logging.INFO,  format='%(asctime)s - %(message)s')
 
 batch_size=32
@@ -21,18 +23,17 @@ class F1_Score_Metrics(Callback):
         self.val_recalls = []
         self.val_precisions = []
 
-
-def on_epoch_end(self, epoch, logs={}):
-    val_predict = (np.asarray(self.model.predict(self.model.validation_data[0]))).round()
-    val_targ = self.model.validation_data[1]
-    _val_f1 = f1_score(val_targ, val_predict)
-    _val_recall = recall_score(val_targ, val_predict)
-    _val_precision = precision_score(val_targ, val_predict)
-    self.val_f1s.append(_val_f1)
-    self.val_recalls.append(_val_recall)
-    self.val_precisions.append(_val_precision)
-    print (" — val_f1: {0} — val_precision: {1} — val_recall {2}".format(_val_f1, _val_precision, _val_recall))
-    return
+    def on_epoch_end(self, epoch, logs={}):
+        val_predict = (np.asarray(self.model.predict(self.model.validation_data[0]))).round()
+        val_targ = self.model.validation_data[1]
+        _val_f1 = f1_score(val_targ, val_predict)
+        _val_recall = recall_score(val_targ, val_predict)
+        _val_precision = precision_score(val_targ, val_predict)
+        self.val_f1s.append(_val_f1)
+        self.val_recalls.append(_val_recall)
+        self.val_precisions.append(_val_precision)
+        print (" — val_f1: {0} — val_precision: {1} — val_recall {2}".format(_val_f1, _val_precision, _val_recall))
+        return
 
 
 
@@ -76,6 +77,8 @@ def esimateClassWeight(df, label):
     column_name="label_{0}".format(label)
     label_positive=df.loc[df[column_name] == 1]
     positive_count=label_positive.shape[0]
+    #Avoid divide by Zero
+    positive_count = positive_count + 1
     positive_ratio=num_images/positive_count
     class_weight = {0: 1, 1: positive_ratio}
     info("Positive class weight for label {0} is {1}".format(label,positive_ratio))
