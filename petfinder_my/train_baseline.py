@@ -17,5 +17,5 @@ num_columns=train_X.shape[1]
 checkpoint=ModelCheckpoint(getModelFile(), monitor='val_loss' )
 
 model=getModel(num_classes,num_columns)
-model.fit(train_X, train_y, validation_split=0.2, epochs=800,
+model.fit(train_X, train_y, validation_split=0.2, epochs=1600,
           verbose=2, callbacks=[getTensorboardCallback(),checkpoint])
